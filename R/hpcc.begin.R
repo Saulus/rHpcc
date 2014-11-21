@@ -15,15 +15,15 @@ hpcc.import <- function (import) {
 	}
 }
 
-hpcc.begin <-function () {
+hpcc.begin <-function (username='',userpwd='') {
 	.hpccSessionVariables <<- matrix(data=character(0),ncol=4)
 	.hpccImport <<- character(0)
 	.eclQuery <<- ""
 	.noOfEclVariables <<- 0
-	hpcc.get.url()
+	hpcc.get.url(username,userpwd)
 }
 
-hpcc.get.url <- function() {
+hpcc.get.url <- function(hpccUsername='',hpccUserPwd='') {
 	fileout<-getwd()
 	libFolderPaths<-.libPaths()
 	hostpropertiesPath <- NULL
@@ -78,8 +78,13 @@ hpcc.get.url <- function() {
 		.hpccHostName <<- obj_hpccHost_prop$hpcc$host
 		hpccProtocol <- obj_hpccHost_prop$hpcc$protocol
 		.hpccPort <<- obj_hpccHost_prop$hpcc$port_thor
-		.hpccUsername <<- obj_hpccHost_prop$hpcc$username
-		.hpccUserPwd <<- obj_hpccHost_prop$hpcc$userPwd
+		if (hpccUsername=="") {
+			.hpccUsername <<- obj_hpccHost_prop$hpcc$username
+			.hpccUserPwd <<- obj_hpccHost_prop$hpcc$userpwd
+		} else {
+			.hpccUsername  <<- hpccUsername
+			.hpccUserPwd  <<- hpccUserPwd
+		}
 		.hpccClustername <<- obj_hpccHost_prop$hpcc$clustername
 	}
 	
