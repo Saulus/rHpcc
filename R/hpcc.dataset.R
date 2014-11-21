@@ -5,13 +5,20 @@ hpcc.dataset <- function(logicalfilename,filetype='thor', inlineData, layoutname
 	if(!missing(logicalfilename)) {
 		recordLayout <- hpcc.data.layout(logicalfilename)
 		data <- sprintf("'~%s'", logicalfilename)
-		recLayoutName <- hpcc.get.name()
-		eclQuery <- sprintf("%s := %s",recLayoutName, recordLayout)
+		if (!missing(layoutname)) {
+			functionArgs <- (as.list(match.call()))
+			recLayoutName <- as.character(functionArgs$layoutname)
+			eclQuery <- sprintf("%s := %s;", recLayoutName, layoutname)
+		} else {
+			recLayoutName <- hpcc.get.name()
+			eclQuery <- sprintf("%s := %s",recLayoutName, recordLayout)
+		}
 		data <- sprintf("%s, %s, %s", data,recLayoutName,filetype)
-	} else if (!missing(inlineData) & !missing(layoutname)) {
-		functionArgs <- (as.list(match.call()))
-		eclQuery <- sprintf("%s := %s;", as.character(functionArgs$layoutname), layoutname)
-		data <- sprintf( "[ %s ], %s", inlineData, as.character(functionArgs$layoutname) )
+		if (!missing(inlineData)) {
+			functionArgs <- (as.list(match.call()))
+			data <- sprintf( "[ %s ], %s", inlineData, recLayoutName )
+		}
+		
 	} else {
 		stop('Arguments are not proper')
 	}
