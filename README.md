@@ -12,4 +12,32 @@ Depends: R (>= 2.11.0), methods, RCurl, XML.
 URL: http://hpccsystems.com
 
 
--> Fork to add basic http authentication
+-> Fork 
+--> to add basic http authentication
+--> Bugfixing (some already done; probably a lot more to do)
+--> As the Package is very poorly documented and most functions are working in a limited setting only I suggest to directly:
+1. write and publish ECL queries that take simple parameters
+2. get output of queries via json, accessing http://IP:8002/WsEcl/submit/query/thor/[query]/json   
+
+
+
+Testset:
+=====
+library("rhpcc")
+library("XML")
+library("yaml")
+library("RCurl")
+
+hpcc.begin()
+countprofil_file <- 'eha::profiles::countprofil_sp.csv'
+countprofil_rec <- 'RECORD
+    UNSIGNED4 COL;
+    UNSIGNED4 ROW;
+    DECIMAL9_2 VAL;
+END;'
+filetype="CSV(HEADING(1),SEPARATOR(';'))"
+
+dsCP <- hpcc.dataset(countprofil_file,filetype,layoutname=countprofil_rec)
+dsCPmax <- hpcc.max(dsCP,'VAL')
+hpcc.output(dsCP,10,TRUE)
+hpcc.execute()
