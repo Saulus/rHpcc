@@ -11,4 +11,5 @@ Each previously defined Attribute can then be used in succeeding ECL Attribute d
 Depends: R (>= 2.11.0), methods, RCurl, XML.
 URL: http://hpccsystems.com
 
-For to add basic http authentication
+
+-> Fork to add basic http authentication
