@@ -1,11 +1,11 @@
-.hpcc.get.name <- function() {
+hpcc.get.name <- function() {
 	.noOfEclVariables <<- .noOfEclVariables +1
 	name <- paste('r2EclVariable',.noOfEclVariables,sep='')
 	return(name)
 }
 
 
-.hpcc.import <- function (import) {
+hpcc.import <- function (import) {
 	if(missing(import)) {
 		return()
 	}
@@ -20,10 +20,10 @@ hpcc.begin <-function () {
 	.hpccImport <<- character(0)
 	.eclQuery <<- ""
 	.noOfEclVariables <<- 0
-	.hpcc.get.url()
+	hpcc.get.url()
 }
 
-.hpcc.get.url <- function() {
+hpcc.get.url <- function() {
 	fileout<-getwd()
 	libFolderPaths<-.libPaths()
 	hostpropertiesPath <- NULL
@@ -58,11 +58,11 @@ hpcc.begin <-function () {
 			if(hpccProtocol=='')
 				hpccProtocol <- 'http'
 			.hpccPort <<- readline(prompt="Enter the Port(Ex : 8010) : ")
-# 			hpccUsername <- readline('Enter the username(if the server needs authentication) : ')
-# 			if(hpccUsername!='')
-# 				hpccUserPwd <- readline('Enter the password of the account if it needs any authentication : ')
+ 			.hpccUsername <<- readline('Enter the username(if the server needs authentication) : ')
+ 			if(.hpccUsername!='')
+ 				.hpccUserPwd <<- readline('Enter the password of the account if it needs any authentication : ')
 			.hpccClustername <<- readline("Enter the Cluster Name : ")
-			hpcc <- list(hpcc=list(hostName = .hpccHostName,protocol = hpccProtocol,port_thor=.hpccPort,clustername=.hpccClustername))
+			hpcc <- list(hpcc=list(hostName = .hpccHostName,protocol = hpccProtocol,port_thor=.hpccPort,clustername=.hpccClustername,username=.hpccUsername,userpwd=.hpccUserPwd))
 			hpcc <- as.yaml(hpcc)
 			file.create(str1)
 			fileCon <- file(str1)
@@ -78,11 +78,11 @@ hpcc.begin <-function () {
 		.hpccHostName <<- obj_hpccHost_prop$hpcc$host
 		hpccProtocol <- obj_hpccHost_prop$hpcc$protocol
 		.hpccPort <<- obj_hpccHost_prop$hpcc$port_thor
-		hpccUsername <- obj_hpccHost_prop$hpcc$username
+		.hpccUsername <<- obj_hpccHost_prop$hpcc$username
+		.hpccUserPwd <<- obj_hpccHost_prop$hpcc$userPwd
 		.hpccClustername <<- obj_hpccHost_prop$hpcc$clustername
-		
-		
 	}
+	
 	hpccdfu_service <- config$hpcchost$dfu_service
 	ecl_direct <- ecl_direct
 	

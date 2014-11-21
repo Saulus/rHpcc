@@ -1,11 +1,11 @@
 hpcc.dataset <- function(logicalfilename,filetype='thor', inlineData, layoutname) {
 	outputDataset <- ""
 	eclQuery<-''
-	outputDatasetName <- .hpcc.get.name()
+	outputDatasetName <- hpcc.get.name()
 	if(!missing(logicalfilename)) {
 		recordLayout <- hpcc.data.layout(logicalfilename)
 		data <- sprintf("'~%s'", logicalfilename)
-		recLayoutName <- .hpcc.get.name()
+		recLayoutName <- hpcc.get.name()
 		eclQuery <- sprintf("%s := %s",recLayoutName, recordLayout)
 		data <- sprintf("%s, %s, %s", data,recLayoutName,filetype)
 	} else if (!missing(inlineData) & !missing(layoutname)) {
@@ -17,6 +17,6 @@ hpcc.dataset <- function(logicalfilename,filetype='thor', inlineData, layoutname
 	}
 	outputDataset <- sprintf("%s := DATASET(%s);\n",outputDatasetName, data)
 	eclQuery <- sprintf("%s %s",eclQuery,outputDataset)
-	.hpcc.submit(eclQuery)
+	hpcc.submit(eclQuery)
 	return(outputDatasetName)
 }

@@ -52,12 +52,23 @@ hpcc.execute <-
     # 			proxyport     = ""
     # 		)
     
-    curlPerform(url = url, 
-                httpheader = headerFields, 
-                ssl.verifypeer = FALSE,
-                postfields = body, 
-                writefunction = reader$update, 
-                curl = handle)
+	if (.hpccUsername!="") {
+	    curlPerform(url = url, 
+	                httpheader = headerFields, 
+	                ssl.verifypeer = FALSE,
+	                postfields = body, 
+	                writefunction = reader$update,
+	                curl = handle,
+					userpwd=paste(.hpccUsername,.hpccUserPwd,sep=":"),
+					httpauth = 1L)
+		} else {
+			curlPerform(url = url, 
+					httpheader = headerFields, 
+					ssl.verifypeer = FALSE,
+					postfields = body, 
+					writefunction = reader$update,
+					curl = handle)
+		}
     status = getCurlInfo(handle)$response.code
     varWu1 <- reader$value()
     newlst <- xmlParse(varWu1)

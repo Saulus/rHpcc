@@ -1,4 +1,4 @@
-.hpcc.formURL <- function(fileName) {
+hpcc.formURL <- function(fileName) {
 	url <- paste("http://",.hpccHostName,":",.hpccPort,"/FileSpray/DownloadFile?Name=",fileName,"&NetAddress=",.hpccHostName,"&Path=/var/lib/HPCCSystems/mydropzone/&OS=1",sep='')
 	return(url)
 }
@@ -26,9 +26,9 @@ hpcc.showFilesToDownload <- function() {
 				print('File already downloaded:')
 			else {
 				nameOfFile <- paste(.hpccSessionVariables[numb,2],'.csv',sep='')
-				url <- .hpcc.formURL(nameOfFile)
+				url <- hpcc.formURL(nameOfFile)
 				print(url)
-				.hpcc.downloadFile(url,nameOfFile)
+				hpcc.downloadFile(url,nameOfFile)
 				numberOfDown <- sum(as.numeric(.hpccSessionVariables[,3]>0))+1 
 				.hpccSessionVariables[numb,3] <- numberOfDown
 			}
@@ -61,9 +61,9 @@ hpcc.convertFilesToFFObjects <- function() {
 				print('File already Converted:')
 			else {
 				nameOfFile <- paste(.hpccSessionVariables[numb,2],'.csv',sep='')
-				url <- .hpcc.formURL(nameOfFile)
+				url <- hpcc.formURL(nameOfFile)
 				print(url)
-				.hpcc.downloadFile(url,nameOfFile)
+				hpcc.downloadFile(url,nameOfFile)
 				.hpccSessionVariables[numb,4]=1
 			}
 		}
@@ -75,7 +75,7 @@ hpcc.convertFilesToFFObjects <- function() {
 
 
 
-.hpcc.downloadFile <- function(url,fileName) {
+hpcc.downloadFile <- function(url,fileName) {
 	ds <- rawToChar(as.raw(92))
 	ds <- sprintf('%s%s',ds,ds)
 	sd <- gsub('/',ds,getwd())

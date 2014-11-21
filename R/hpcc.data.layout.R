@@ -1,5 +1,5 @@
 hpcc.data.layout <- function(logicalfilename) {
-	#		uUrl <- .hpcc.get.url()
+	#		uUrl <- hpcc.get.url()
 	out.struct <- ""
 	body <- paste('<?xml version="1.0" encoding="utf-8"?>
 				  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
@@ -32,12 +32,23 @@ hpcc.data.layout <- function(logicalfilename) {
 # 		proxyport     = ""
 # 	)
 	
-	curlPerform(url = url,
+	if (.hpccUsername!="") {
+		curlPerform(url = url, 
+				httpheader = headerFields, 
+				ssl.verifypeer = FALSE,
+				postfields = body, 
+				writefunction = reader$update,
+				curl = handle,
+				userpwd=paste(.hpccUsername,.hpccUserPwd,sep=":"),
+				httpauth = 1L)
+	} else {
+		curlPerform(url = url,
 				httpheader = headerFields,
 				ssl.verifypeer = FALSE,
 				postfields = body,
 				writefunction = reader$update,
 				curl = handle)
+	}
 	
 	status = getCurlInfo(handle)$response.code
 	if(status >= 200 && status <= 300) {

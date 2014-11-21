@@ -6,7 +6,7 @@ hpcc.output <- function (out.dataframe,noOfRecordsNeed,download=FALSE) {
 		out <- ''
 	if(download) {
 # 		.eclQuery <<- sprintf("import STD;\n%s",.eclQuery)
-		.hpcc.import(import = "STD")
+		hpcc.import(import = "STD")
 		out1 <- paste("OUTPUT(", out.dataframe,",,'~rhpcc::",outX, "',CSV(HEADING(SINGLE)));\n", sep = "")
 		despray <- paste("Std.File.Despray('~rhpcc::",outX,"','",.hpccHostName,"','/var/lib/HPCCSystems/mydropzone/",outX,".csv',,,,TRUE);\n",sep='')
 		out <- paste(out1,despray,out,sep='')
@@ -14,12 +14,12 @@ hpcc.output <- function (out.dataframe,noOfRecordsNeed,download=FALSE) {
 		numbas <- as.character(dim(.hpccSessionVariables)[1]+1)
 		.hpccSessionVariables <<- rbind(.hpccSessionVariables,c(numbas,outX,0,0))
 	}
-	.hpcc.submit(out)
+	hpcc.submit(out)
 }
 
 
 
-.hpcc.submit <-
+hpcc.submit <-
 	function(code,submit=TRUE) {
 		if(!submit)
 			return(code)

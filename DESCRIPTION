@@ -1,0 +1,10 @@
+Package: rhpcc
+Type: Package
+Title: Data Analysis in R using HPCC
+Version: 1.0.1
+Date: 2014-11-14
+Author: Paul Hellwig
+Maintainer: P.Hellwig<p.hellwig@elsevier.com>
+Description: Data Analysis in R using HPCC, based on v1.0 from 2014-10-13, updated for basic http auth 
+License: What license is it under?
+Packaged: 2014-11-13 10:16:57 UTC; 703143866
