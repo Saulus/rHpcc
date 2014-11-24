@@ -12,10 +12,13 @@ Depends: R (>= 2.11.0), methods, RCurl, XML.
 URL: http://hpccsystems.com
 
 
--> Fork 
---> to add basic http authentication
---> Bugfixing (some already done; probably a lot more to do)
---> As the Package is very poorly documented and most functions are working in a limited setting only I suggest to directly:
+This Fork
+===== 
+added basic http authentication
+
+Bugfixing (some already done; probably a lot more to do)
+
+As the Package is very poorly documented and most functions are working in a limited setting only I suggest to better access HPCC results from R via JSON:
 1. write and publish ECL queries that take simple parameters
 2. get output of queries via json, accessing http://IP:8002/WsEcl/submit/query/thor/[query]/json   
 
@@ -23,7 +26,7 @@ URL: http://hpccsystems.com
 
 Testset:
 =====
-library("rhpcc")
+library("rhpcc");
 library("XML")
 library("yaml")
 library("RCurl")
